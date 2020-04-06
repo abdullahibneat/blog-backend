@@ -1,4 +1,5 @@
 const totalLikes = require("../utils/list_helper").totalLikes
+const favouriteBlog = require("../utils/list_helper").favouriteBlog
 
 const blogs = [
     {
@@ -64,5 +65,20 @@ describe("totalLikes", () => {
 
     test("of a bigger list is calculated right", () => {
         expect(totalLikes(blogs)).toBe(36)
+    })
+})
+
+describe("favouriteBlog", () => {
+    test("of empy list is none", () => {
+        expect(favouriteBlog([])).toEqual({})
+    })
+
+    test("when list has only one blog equals that blog", () => {
+        const oneBlog = [ blogs[0] ]
+        expect(favouriteBlog(oneBlog)).toEqual(blogs[0])
+    })
+
+    test("of a bigger list is the one with the most likes", () => {
+        expect(favouriteBlog(blogs)).toEqual(blogs[2])
     })
 })

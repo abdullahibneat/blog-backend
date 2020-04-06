@@ -4,4 +4,8 @@ const totalLikes = (blogs) => {
     return blogs.length === 0? 0 : sum
 }
 
-module.exports = { totalLikes }
+const favouriteBlog = (blogs) => {
+    return blogs.length === 0? {} : blogs.reduce((highestVotes, item) => item.likes > highestVotes.likes? item : highestVotes)
+}
+
+module.exports = { totalLikes, favouriteBlog }
