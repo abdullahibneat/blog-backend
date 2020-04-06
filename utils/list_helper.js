@@ -22,4 +22,18 @@ const mostBlogs = (blogs) => {
     }
 }
 
-module.exports = { totalLikes, favouriteBlog, mostBlogs }
+const mostLikes = (blogs) => {
+    if(blogs.length === 0) return {}
+    const allAuthors = {}
+    blogs.forEach(b => {
+        allAuthors[b.author] = allAuthors[b.author]? allAuthors[b.author]+=b.likes : b.likes
+    })
+    const allAuthorsArray = Object.entries(allAuthors)
+    allAuthorsArray.sort((a, b) => b[1] - a[1])[0]
+    return {
+        author: allAuthorsArray[0][0],
+        likes: parseInt(allAuthorsArray[0][1])
+    }
+}
+
+module.exports = { totalLikes, favouriteBlog, mostBlogs, mostLikes }
