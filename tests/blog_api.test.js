@@ -45,6 +45,23 @@ describe("Testing API", () => {
 
         expect(await Blog.find(newBlog)).toHaveLength(1)
     })
+
+    test("New blog without likes defaults to 0 likes", async () => {
+        const newBlog = {
+            title: "A new blog without likes",
+            author: "Example author",
+            url: "https://google.com"
+        }
+
+        await api
+            .post("/api/blogs")
+            .send(newBlog)
+            .expect(201)
+            .expect("Content-Type", /application\/json/)
+
+        const storedBlog = await Blog.find(newBlog)
+        expect(storedBlog[0].likes).toBe(0)
+    })
 })
 
 afterAll(() => {
