@@ -3,7 +3,7 @@ const config = require("./utils/config")
 const middleware = require("./utils/middleware")
 
 const mongoose = require("mongoose")
-mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: true })
     .then(result => logger.info("Connected to MongoDB"))
 
 const express = require("express")

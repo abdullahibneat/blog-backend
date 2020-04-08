@@ -87,6 +87,24 @@ describe("Testing API", () => {
 
         expect(await Blog.find(newBlog)).toHaveLength(0)
     })
+
+    test("Blog entry can be updated", async () => {
+        const newBlog = await new Blog({
+            title: "Wrong title",
+            url: "localhost:3003",
+            author: "Hello world"
+        }).save()
+
+        const correctTitle = { title: "Correct title" }
+
+        await api
+            .put(`/api/blogs/${ newBlog.id }`)
+            .send(correctTitle)
+            .expect(201)
+
+        const storedBlog = await Blog.findById(newBlog.id)
+        expect(storedBlog.title).toBe(correctTitle.title)
+    })
 })
 
 afterAll(() => {
