@@ -7,10 +7,12 @@ mongoose.connect(config.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology
     .then(result => logger.info("Connected to MongoDB"))
 
 const express = require("express")
+const bodyParser = require("body-parser")
 const blogsRouter = require("./controllers/blogs")
 
 const app = express()
 
+app.use(bodyParser.json())
 app.use(middleware.requestLogger)
 app.use("/api/blogs", blogsRouter)
 app.use(middleware.unknownEndpoint)
