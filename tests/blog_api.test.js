@@ -28,6 +28,23 @@ describe("Testing API", () => {
             expect(b.id).toBeDefined()
         })
     })
+
+    test("New blog can be added", async () => {
+        const newBlog = {
+            title: "A new blog",
+            author: "Example author",
+            url: "https://google.com",
+            likes: 1
+        }
+
+        await api
+            .post("/api/blogs")
+            .send(newBlog)
+            .expect(201)
+            .expect("Content-Type", /application\/json/)
+
+        expect(await Blog.find(newBlog)).toHaveLength(1)
+    })
 })
 
 afterAll(() => {
