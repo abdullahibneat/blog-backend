@@ -73,6 +73,20 @@ describe("Testing API", () => {
             .send(newBlog)
             .expect(400)
     })
+
+    test("Blog can be deleted", async () => {
+        const newBlog = await new Blog({
+            title: "Deleting this soon",
+            author: "Void",
+            url: "localhost"
+        }).save()
+
+        await api
+            .delete(`/api/blogs/${ newBlog.id }`)
+            .expect(204)
+
+        expect(await Blog.find(newBlog)).toHaveLength(0)
+    })
 })
 
 afterAll(() => {
