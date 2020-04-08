@@ -62,6 +62,17 @@ describe("Testing API", () => {
         const storedBlog = await Blog.find(newBlog)
         expect(storedBlog[0].likes).toBe(0)
     })
+
+    test("New blog without title and url is rejected", async () => {
+        const newBlog = {
+            author: "Example author"
+        }
+
+        await api
+            .post("/api/blogs")
+            .send(newBlog)
+            .expect(400)
+    })
 })
 
 afterAll(() => {
