@@ -14,12 +14,12 @@ blogsRouter.post("/", async (req, res, next) => {
 
 blogsRouter.delete("/:id", async (req, res) => {
     await Blog.findByIdAndDelete(req.params.id)
-    res.status(204).end()
+    res.sendStatus(204)
 })
 
 blogsRouter.put("/:id", async (req, res) => {
     await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
-    res.send(201).end()
+    res.sendStatus(201)
 })
 
 module.exports = blogsRouter
