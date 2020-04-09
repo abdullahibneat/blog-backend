@@ -49,4 +49,28 @@ const sample_blogs = [
     }
 ]
 
-module.exports = { sample_blogs }
+const sample_users = [
+    {
+        _id: "5e8f7041a4875d271478c19f",
+        name: "William Gregory",
+        username: "WilliamDGregory",
+        passwordHash: "$2b$10$1mJ3RhNAcFgmO/0NezhSpeBMXcwDTlhYT2pyYamwCoqikg1VddtJW", // password: william1959
+        __v: 0
+    },
+    {
+        _id: "5e8f733da4875d271478c1a0",
+        name: "Joel Ramirez",
+        username: "j.ramirez",
+        passwordHash: "$2b$10$lCfwMffRYmYxbe0QKNyMd.ocY1tOU3oHMobG.OrjT7yg22kz4N1lW", // password: oowaiL7o
+        __v: 0
+    },
+    {
+        _id: "5e8f73aba4875d271478c1a1",
+        name: "David Nielsen",
+        username: "Nielsen",
+        passwordHash: "$2b$10$Lp4hhcGZF8F18/Md94MFPehH5nhIZdVDyu/vCDAou9t44uEfYNCxW", // password: sieshae7Ah
+        __v: 0
+    }
+]
+
+module.exports = { sample_blogs, sample_users }
