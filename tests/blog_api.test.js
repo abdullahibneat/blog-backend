@@ -8,6 +8,30 @@ const blogs = [...helper.sample_blogs]
 
 const api = supertest(app)
 
+// Create a test user, and store the token and ID from beforeAll() below.
+const testUser = {
+    id: 0,
+    token: ""
+}
+
+beforeAll(async () => {
+    const User = require("../models/user")
+    await User.findOneAndDelete({ username: "test" })
+    await api
+        .post("/api/users")
+        .send({
+            name: "test",
+            username: "test",
+            password: "test"
+        })
+    const result = await api
+        .post("/api/login")
+        .send({ username: "test", password: "test" })
+    testUser.token = result.text
+    const storedTestUser = await User.findOne({ username: "test" })
+    testUser.id = storedTestUser.id
+})
+
 beforeEach(async () => {
     await Blog.deleteMany({})
     await Promise.all(blogs.map(b => new Blog(b).save()))
@@ -29,7 +53,7 @@ describe("Testing API", () => {
         })
     })
 
-    test("New blog can be added", async () => {
+    test("Blog can't be added by unathenticated user", async () => {
         const newBlog = {
             title: "A new blog",
             author: "Example author",
@@ -39,6 +63,21 @@ describe("Testing API", () => {
 
         await api
             .post("/api/blogs")
+            .send(newBlog)
+            .expect(401)
+    })
+
+    test("New blog can be added by authenticated user", async () => {
+        const newBlog = {
+            title: "A new blog",
+            author: "Example author",
+            url: "https://google.com",
+            likes: 1
+        }
+
+        await api
+            .post("/api/blogs")
+            .set("Authorization", testUser.token)
             .send(newBlog)
             .expect(201)
             .expect("Content-Type", /application\/json/)
@@ -55,6 +94,7 @@ describe("Testing API", () => {
 
         await api
             .post("/api/blogs")
+            .set("Authorization", testUser.token)
             .send(newBlog)
             .expect(201)
             .expect("Content-Type", /application\/json/)
@@ -70,19 +110,37 @@ describe("Testing API", () => {
 
         await api
             .post("/api/blogs")
+            .set("Authorization", testUser.token)
             .send(newBlog)
             .expect(400)
     })
 
-    test("Blog can be deleted", async () => {
+    test("Blog can't be deleted by other users", async () => {
         const newBlog = await new Blog({
             title: "Deleting this soon",
             author: "Void",
-            url: "localhost"
+            url: "localhost",
+            user: "000000000000000000000000"
         }).save()
 
         await api
             .delete(`/api/blogs/${ newBlog.id }`)
+            .set("Authorization", testUser.token)
+            .expect(401)
+        await newBlog.remove()
+    })
+
+    test("Blog can be deleted by user who created the blog", async () => {
+        const newBlog = await new Blog({
+            title: "Deleting this soon",
+            author: "Void",
+            url: "localhost",
+            user: testUser.id
+        }).save()
+
+        await api
+            .delete(`/api/blogs/${ newBlog.id }`)
+            .set("Authorization", testUser.token)
             .expect(204)
 
         expect(await Blog.find(newBlog)).toHaveLength(0)
