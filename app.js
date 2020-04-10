@@ -8,7 +8,7 @@ mongoose.connect(config.MONGODB_URI, {
     useUnifiedTopology: true,
     useFindAndModify: false,
     useCreateIndex: true
-}).then(result => logger.info("Connected to MongoDB"))
+}).then(() => logger.info("Connected to MongoDB"))
 
 const express = require("express")
 const bodyParser = require("body-parser")
