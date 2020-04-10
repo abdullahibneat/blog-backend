@@ -19,6 +19,7 @@ const usersRouter = require("./controllers/users")
 const app = express()
 
 app.use(bodyParser.json())
+app.use(middleware.tokenExtractor)
 app.use(middleware.requestLogger)
 
 app.use("/api/login", loginRouter)
