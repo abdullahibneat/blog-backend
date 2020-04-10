@@ -15,6 +15,7 @@ const unknownEndpoint = (req, res, next) => {
 const errorHandler = (err, req, res, next) => {
     if(err) {
         if(err.name === "CastError") return res.status(404).send({ error: "Unknown ID." })
+        else if(err.name === "JsonWebTokenError") return res.status(401).send({ error: "Invalid token." })
         return res.status(400).send({ error: err.message })
     }
     else next()
