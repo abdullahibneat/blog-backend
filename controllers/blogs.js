@@ -26,8 +26,22 @@ blogsRouter.post("/", async (req, res, next) => {
     } catch(err) { next(err) }
 })
 
-blogsRouter.delete("/:id", async (req, res) => {
-    await Blog.findByIdAndDelete(req.params.id)
+blogsRouter.delete("/:id", async (req, res, next) => {
+    if(!req.token) return next({ name: "JsonWebTokenError" })
+
+    const blog = await Blog.findById(req.params.id)
+
+    if(blog) {
+        const userID = req.token.id
+
+        if(blog.user.toString() === userID) {
+            await blog.remove()
+            return res.sendStatus(204)
+        }
+
+        return res.status(401).json({ error: "Only the user who saved this blog can delete this entry." })
+    }
+
     res.sendStatus(204)
 })
 
