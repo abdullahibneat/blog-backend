@@ -27,7 +27,7 @@ beforeAll(async () => {
     const result = await api
         .post("/api/login")
         .send({ username: "test", password: "test" })
-    testUser.token = result.text
+    testUser.token = result.body.token
     const storedTestUser = await User.findOne({ username: "test" })
     testUser.id = storedTestUser.id
 })
