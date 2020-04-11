@@ -25,7 +25,7 @@ describe("Testing /users API", () => {
             .send(newUser)
             .expect(201)
 
-        // expect(await User.find({ name: newUser.name, username: newUser.username })).toHaveLength(1)
+        expect(await User.find({ name: newUser.name, username: newUser.username })).toHaveLength(1)
     })
 
     test("User without required fields cannot be created", async () => {
