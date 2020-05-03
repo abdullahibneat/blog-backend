@@ -29,6 +29,20 @@ blogsRouter.post("/", async (req, res, next) => {
     } catch(err) { next(err) }
 })
 
+blogsRouter.post("/:id/comments", async (req, res, next) => {
+    try {
+        if(!req.body.comment) return res.status(400).json("Comment cannot be empty")
+
+        const comment = { comment: req.body.comment }
+
+        const blog = await Blog.findByIdAndUpdate(req.params.id, { $push: { comments: comment } }, { new: true })
+
+        res.json(blog)
+    } catch(err) {
+        next(err)
+    }
+})
+
 blogsRouter.delete("/:id", async (req, res, next) => {
     if(!req.token) return next({ name: "JsonWebTokenError" })
 
