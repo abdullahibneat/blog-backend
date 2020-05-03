@@ -6,6 +6,14 @@ usersRouter.get("/", async (req, res) => {
     res.json(await User.find({}).populate("blogs", { user: 0 }))
 })
 
+usersRouter.get("/:id", async (req, res, next) => {
+    try {
+        res.json(await User.findById(req.params.id).populate("blogs", { user: 0 }))
+    } catch (err) {
+        next(err)
+    }
+})
+
 usersRouter.post("/", async (req, res, next) => {
     try {
         const body = req.body
