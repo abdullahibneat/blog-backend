@@ -29,6 +29,10 @@ const blogSchema = mongoose.Schema({
 blogSchema.set("toJSON", {
     transform: (doc, ret) => {
         ret.id = ret._id.toString()
+        ret.comments.map(c => {
+            c.id = c._id.toString()
+            delete c._id
+        })
         delete ret._id
         delete ret.__v
     }
