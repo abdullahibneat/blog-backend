@@ -26,7 +26,7 @@ usersRouter.post("/", async (req, res, next) => {
 
         res.status(201).json(await new User({
             name: body.name,
-            username: body.username,
+            username: body.username.toLowerCase(),
             passwordHash
         }).save())
     } catch(err) { next(err) }
