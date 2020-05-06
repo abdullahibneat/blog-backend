@@ -11,6 +11,7 @@ mongoose.connect(config.MONGODB_URI, {
 }).then(() => logger.info("Connected to MongoDB"))
 
 const express = require("express")
+const cors = require("cors")
 const bodyParser = require("body-parser")
 const loginRouter = require("./controllers/login")
 const blogsRouter = require("./controllers/blogs")
@@ -18,6 +19,7 @@ const usersRouter = require("./controllers/users")
 
 const app = express()
 
+app.use(cors())
 app.use(bodyParser.json())
 app.use(middleware.tokenExtractor)
 app.use(middleware.requestLogger)
