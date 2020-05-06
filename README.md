@@ -1,4 +1,4 @@
-## Blog backend
+# Blog backend
 This application was built as part of the [FullStackOpen](https://fullstackopen.com/en/) online course. This express-based API allows users to save interesting blogs to a MongoDB database.
 It can be seen in action at the following address: [https://blog-backend.abdullahibneat.now.sh/](https://blog-backend.abdullahibneat.now.sh/)
 
