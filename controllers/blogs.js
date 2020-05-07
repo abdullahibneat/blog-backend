@@ -15,6 +15,11 @@ blogsRouter.post("/", async (req, res, next) => {
         const user = await User.findById(id)
 
         const body = req.body
+
+        if(!body.title) return res.status(400).json({ error: "Title is required" })
+        if(!body.author) return res.status(400).json({ error: "Author is required" })
+        if(!body.url) return res.status(400).json({ error: "URL is required" })
+
         body.user = id
 
         const blog = new Blog(body)
