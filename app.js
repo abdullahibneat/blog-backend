@@ -1,6 +1,7 @@
 const logger = require("./utils/logger")
 const config = require("./utils/config")
 const middleware = require("./utils/middleware")
+const path = require("path")
 
 const mongoose = require("mongoose")
 mongoose.connect(config.MONGODB_URI, {
