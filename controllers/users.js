@@ -18,6 +18,8 @@ usersRouter.post("/", async (req, res, next) => {
     try {
         const body = req.body
 
+        body.name = body.name.trim()
+
         if(!body.name) return res.status(400).json({ error: "Name is required." })
 
         body.username = body.username.trim()
