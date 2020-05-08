@@ -36,6 +36,7 @@ blogsRouter.post("/", async (req, res, next) => {
 
 blogsRouter.post("/:id/comments", async (req, res, next) => {
     try {
+        req.body.comment = req.body.comment.trim()
         if(!req.body.comment) return res.status(400).json("Comment cannot be empty")
 
         const comment = { comment: req.body.comment }
