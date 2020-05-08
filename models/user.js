@@ -13,8 +13,7 @@ const userSchema = new mongoose.Schema({
     },
     passwordHash: {
         type: String,
-        required: true,
-        minlength: 3
+        required: true
     },
     blogs: [{
         type: mongoose.Schema.Types.ObjectId,
