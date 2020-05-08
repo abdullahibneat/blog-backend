@@ -20,6 +20,7 @@ usersRouter.post("/", async (req, res, next) => {
 
         if(!body.name) return res.status(400).json({ error: "Name is required." })
         if(!body.username) return res.status(400).json({ error: "Username is required." })
+        if(body.username.length < 3) return res.status(400).json({ error: "Username must be at least 3 characters long." })
         if(!body.password) return res.status(400).json({ error: "Password is required." })
         if(body.password.length < 7) return res.status(400).json({ error: "Password must be at least 7 characters long." })
 
