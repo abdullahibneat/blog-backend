@@ -72,7 +72,8 @@ blogsRouter.put("/:id", async (req, res, next) => {
     try {
         const blog = await Blog.findByIdAndUpdate(req.params.id, req.body, { new: true })
         if(!blog) return res.status(404).send({ error: "Unknown ID." })
-        return res.sendStatus(201)
+        await Blog.populate(blog, { path: "user", select: "-blogs" })
+        return res.status(201).json(blog)
     } catch(err) { next(err) }
 })
 
